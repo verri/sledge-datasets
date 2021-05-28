@@ -9,6 +9,6 @@ data = pd.read_csv(
     header=None,
     names=names)
 
-data = data.drop(columns = ['Rings'])
+data = data.drop(columns=['Rings'])
 
 prepare_dataset(data).to_csv('data/abalone.csv', index=False)
