@@ -21,17 +21,15 @@ def prepare_dataset(data, nclasses=None):
 
     transformer = ColumnTransformer([
         ('discretizer', discretizer, numeric),
-        ('onehot', onehot, categorical)])
+        ('onehot', onehot, categorical)]) # TODO: verify passthrough
 
     array = transformer.fit_transform(data)
 
     if np.sum(numeric) > 0:
         edges = transformer.transformers_[0][1].bin_edges_
         numeric_names = data.columns[numeric]
-        # TODO: check if [a, b) is correct (sklearn does not document it very
-        # well)
         numeric_names = [
-            f'{numeric_names[j]} in [{edges[j][b]}, {edges[j][b+1]})' for j in range(
+            f'{numeric_names[j]} in ({edges[j][b]}, {edges[j][b+1]}]' for j in range(
                 len(numeric_names)) for b in range(nbins)]
     else:
         numeric_names = []
